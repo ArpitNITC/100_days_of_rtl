@@ -1,0 +1,24 @@
+// Code your testbench here
+// or browse Examples
+module day1_4x1_MUX_tb();
+
+wire out;
+reg[3:0] in;
+reg[1:0] sel;
+
+day1_4x1_MUX DUT(out,in,sel);
+
+initial begin
+  $monitor($time, "input=%b, select=%b, output=%b", in, sel, out);
+  $dumpfile("day1.vcd");
+  $dumpvars;
+end
+
+initial begin
+  #5 in=0110; sel=01;
+  #5 in=0101; sel=01;
+  #5 in=0011; sel=10;
+  #5 in=1000; sel=11;
+  #10 $finish;
+end
+endmodule
