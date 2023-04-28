@@ -1,0 +1,30 @@
+// Code your testbench here
+// or browse Examples
+module tb();
+  wire out_p,out_n;
+  reg in,clk,rst;
+  
+  edge_detect DUT(out_p,out_n,in,clk,rst);
+  
+  initial begin
+    $monitor($time, "input=%b, out_posedge=%b , out_negedge=%b", in,out_p,out_n);
+    $dumpfile("edge.vcd");
+    $dumpvars();
+    #100 $finish;
+  end
+  
+  initial begin
+   clk=0;
+    forever #5 clk=~clk;
+  end
+  
+  initial begin
+    #4 rst=1;
+    #2 rst=0;
+    #5 in=1;
+    #50 in=0;
+    #10 in=0;
+    #20 in=1;
+  end
+ 
+endmodule
