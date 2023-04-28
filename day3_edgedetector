@@ -1,0 +1,31 @@
+// Code your design here
+module edge_detect(out_posedge,out_negedge,in,clock,reset);
+  output reg out_posedge,out_negedge;
+  input in, clock, reset;
+  reg temp;
+  
+  always@(posedge reset)
+    begin
+      out_posedge=0;
+      out_negedge=0;
+    end
+  
+  always@(posedge in or negedge in)
+    begin
+      @(posedge clock)
+        begin
+          if(in)
+            out_posedge=1;
+          else
+            out_negedge=1;
+        end
+      @(posedge clock)
+      begin
+        out_posedge=0;
+        out_negedge=0;
+      end
+    end
+   
+        
+          
+endmodule
