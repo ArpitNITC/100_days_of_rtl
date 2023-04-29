@@ -1,0 +1,49 @@
+/*
+3'b000	ADD	-
+3'b001	SUB	-
+3'b010	SLL	Vector a should left shift using bits 2:0 of vector b
+3'b011	LSR	Vector a should right shift using bits 2:0 of vector b
+3'b100	AND	-
+3'b101	OR	-
+3'b110	XOR	-
+3'b111	EQL	Output should be 1 when equal otherwise 0
+*/
+
+module ALU(out,input_a,input_b,operation);
+  output reg[3:0] out;
+  input[3:0] input_a,input_b;
+  input[2:0] operation;
+  
+ always@(operation) begin
+  case(operation)
+    3'b000:begin
+      assign out=input_a+input_b;
+    end
+    
+    3'b001:begin
+      assign out=input_a-input_b;
+    end
+    3'b010:begin
+      assign out=input_a<<input_b[1:0];
+    end
+    3'b011:begin
+      assign out=input_a>>input_b[2:0];
+    end
+    3'b100:begin
+      assign out=input_a && input_b;
+    end
+    3'b101:begin
+      assign out=input_a | input_b;
+    end
+    3'b110:begin
+      assign out=input_a^input_b;
+    end
+    3'b111:begin
+      assign out=(input_a==input_b)?1:0;
+    end
+    default:assign out=0;
+    
+  endcase
+end
+
+endmodule
