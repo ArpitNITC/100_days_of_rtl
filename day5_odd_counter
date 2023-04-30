@@ -1,0 +1,13 @@
+module odd_counter(count,clock,reset);
+  input clock,reset;
+  output reg[7:0] count;
+  
+  always@(posedge clock)
+    begin
+      if(reset)
+        count=8'h1;
+      else
+        count=count+8'h2;
+    end
+  
+endmodule
