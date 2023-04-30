@@ -1,0 +1,22 @@
+module odd_count_tb();
+  wire[7:0] count;
+  reg clk,rst;
+  
+  odd_counter DUT(count,clk,rst);
+  
+  initial begin
+    $monitor($time, " CLOCK=%b , COUNT=%h " , clk, count);
+    #100 $finish;
+  end
+  
+  initial begin
+    clk=0;
+    forever #5 clk=~clk;
+  end
+  
+  initial begin
+    #4 rst=1;
+    #2 rst=0;
+  end
+  
+endmodule
