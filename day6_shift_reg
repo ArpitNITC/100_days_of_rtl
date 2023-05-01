@@ -1,0 +1,14 @@
+module shift_reg(out,in,clock,reset);
+  
+  output reg[3:0] out;
+  input in, clock,reset;
+  
+  always@(posedge clock)
+    begin
+      if(reset)
+        out<=4'b0000;
+      else
+        out<={in,out[3:1]};
+    end
+  
+endmodule
