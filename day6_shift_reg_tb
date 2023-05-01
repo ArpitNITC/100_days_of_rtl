@@ -1,0 +1,27 @@
+module shift_reg_tb();
+  
+  wire[3:0] out;
+  reg in,clk,rst;
+  
+  shift_reg DUT(out,in,clk,rst);
+  
+  initial begin
+    clk=0;
+    forever #5 clk=~clk;
+  end
+  
+  initial begin
+    $monitor($time, "clock=%b , input_bit=%b , output=%b", clk,in,out);
+    $dumpfile("shift.vcd");
+    $dumpvars();
+    #100 $finish;
+  end
+  
+  initial begin
+    #4 rst=1;
+    #2 rst=0;
+    #8 in=1;
+    #10 in=0;
+  end
+  
+endmodule
