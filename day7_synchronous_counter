@@ -1,0 +1,57 @@
+module sync_FIFO(data_out,full,empty,data_in,w_en,r_en,clock,reset);
+  
+  output reg[3:0] data_out;
+  output wire full,empty;
+  
+  input [3:0] data_in;
+  input w_en,r_en;
+  input clock,reset;
+  
+  reg[2:0] w_ptr=0;
+  reg[2:0] r_ptr=0;
+  reg[3:0] mem[7:0];
+
+  
+  always@(posedge clock)
+    begin
+      if(reset)
+        begin
+          data_out<=4'b0000;
+         
+          w_ptr<=0;
+          r_ptr<=0;
+        end
+      else
+        begin
+          if(w_en)
+            begin
+              if(full)
+                $display("FIFO FULL CANNOT WRITE");
+              else
+                begin
+                  mem[w_ptr]<=data_in;
+                  w_ptr<=w_ptr+3'b001;
+                end
+            end
+          
+          else if(r_en)
+            begin
+              if(empty)
+                $display("FIFO EMPTY COANNOT READ");
+            else
+              begin
+                data_out<=mem[r_ptr];
+                r_ptr<=r_ptr+3'b001;
+              end
+            end
+          else
+            begin
+              data_out<=4'b0000;
+            end
+        end
+    end
+  
+  assign full=((w_ptr+3'b001)==r_ptr)?1:0;
+  assign empty=(w_ptr==r_ptr)?1:0;
+ 
+endmodule
