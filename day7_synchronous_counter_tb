@@ -1,0 +1,43 @@
+module sync_FIFO_tb();
+  wire[3:0] d_out;
+  wire full,empty;
+  reg[3:0] d_in;
+  reg w_en,r_en;
+  reg clk,rst;
+  
+  sync_FIFO DUT(d_out,full,empty,d_in,w_en,r_en,clk,rst);
+  
+  initial begin
+    clk=0;
+    forever #5 clk=~clk;
+  end
+  
+  initial begin
+    $monitor($time, "CLOCK=%b , reset=%b , w_en=%b , r_en=%b , d_in=%b, d_out=%b, full=%b , empty=%b", clk,rst,w_en,r_en,d_in,d_out,full,empty);
+    $dumpfile("sync.vcd");
+    $dumpvars();
+    #300 $finish;
+  end
+  
+  initial begin
+    #4 rst=1;
+    #2 rst=0;
+    #9 w_en=1;d_in=4'b1100;
+    #10 d_in=4'b1111;
+    #10 d_in=4'b1011;
+    #10 d_in=4'b1001;
+    #10 d_in=4'b1110;
+    #10 d_in=4'b1111;
+    #10 r_en=1;w_en=0;
+    #20 r_en=0;w_en=1;
+    #10 d_in=4'b0001;
+    #10 d_in=4'b1010;
+    #10 d_in=4'b1111;
+    #10 d_in=4'b1100;
+    #10 w_en=0;
+    #20 r_en=1;
+    #60 r_en=0;
+  end
+  
+endmodule
+  
