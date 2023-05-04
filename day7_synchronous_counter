@@ -44,14 +44,6 @@ module sync_FIFO(data_out,full,empty,data_in,w_en,r_en,clock,reset);
                 r_ptr<=r_ptr+3'b001;
               end
             end
-          else
-            begin
-              data_out<=4'b0000;
-            end
+         
         end
     end
-  
-  assign full=((w_ptr+3'b001)==r_ptr)?1:0;
-  assign empty=(w_ptr==r_ptr)?1:0;
- 
-endmodule
